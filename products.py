@@ -107,11 +107,15 @@ class Product:
           If quantity reaches 0, deactivates product.
           Returns the total price (float) of the purchase.
           """
+          total_price = 0
+
           try:
                if not isinstance(quantity, (int, float)):
                     raise TypeError("Quantity must be a number")
                if quantity < 0:
-                    raise ValueError("Please introduce at least one unit to buy")
+                    raise ValueError('Please introduce at least one unit to buy')
+               if quantity > self.quantity:
+                    raise ValueError("Quantity requested higher than quantity available")
 
                if self.quantity >= quantity:
                     ### bug fix: obtain total price before updating
@@ -119,7 +123,7 @@ class Product:
                     total_price = quantity * self.price
                     self.quantity -= quantity
                else:
-                    print(f"Not enough {self.name} units in store.")
+                    raise ValueError(f"Not enough {self.name} units in store.")
 
                if self.quantity == 0:
                     self.deactivate()

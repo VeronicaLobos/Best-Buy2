@@ -34,7 +34,11 @@ def test_product_becomes_inactive():
     it becomes inactive.
     """
     product = Product(name="MacBook Air M2", price=1450, quantity=100)
-    product.buy(100)
+
+    ##  purchase as much as available
+    purchase_amount = product.quantity
+    product.buy(purchase_amount)
+
     assert product.is_active() is False
 
 
@@ -43,7 +47,15 @@ def test_buy_modifies_quantity():
     Test that product purchase modifies the quantity
     and returns the right output.
     """
-    Product(name="MacBook Air M2", price=1450, quantity=100)
+    product = Product(name="MacBook Air M2", price=1450, quantity=100)
+
+    ## Purchase everything available except one unit
+    purchase_amount = product.quantity - 1
+    total_price = product.buy(purchase_amount)
+
+    assert total_price == product.price * purchase_amount
+    assert total_price == 1450 * 99
+    assert product.quantity == 1
 
 
 def test_buy_too_much():
@@ -51,4 +63,13 @@ def test_buy_too_much():
     Test that buying a larger quantity than exists
     invokes exception.
     """
-    pass
+    product = Product(name="MacBook Air M2", price=1450, quantity=100)
+
+    ## Purchase everything available plus one unit
+    purchase_amount = product.quantity + 1
+    total_price = 0
+
+    ## Should return a total price of 0
+    assert product.buy(purchase_amount) == total_price
+    ## Product quantity should remain unchanged
+    assert product.quantity == purchase_amount - 1
