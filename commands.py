@@ -155,9 +155,3 @@ def make_order(my_store):
 
     grand_total = my_store.order(cart)
     print(f"Order made! Total payment: ${grand_total}")
-
-    ## update store
-    for item in cart:
-        if item[0].quantity < 1:
-            my_store.remove_product(item[0])
-            print(f"{item[0].name} removed from store due to unavailability")

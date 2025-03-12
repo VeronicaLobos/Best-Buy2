@@ -104,6 +104,7 @@ class Product:
           Buys a given quantity of the product.
           Raises an Exception for incorrect inputs.
           Updates the quantity of the product.
+          If quantity reaches 0, deactivates product.
           Returns the total price (float) of the purchase.
           """
           try:
@@ -119,6 +120,10 @@ class Product:
                     self.quantity -= quantity
                else:
                     print(f"Not enough {self.name} units in store.")
+
+               if self.quantity == 0:
+                    self.deactivate()
+                    print(f"\n{self.name} no longer available")
 
           except Exception as e:
                print("Error: ", e)
