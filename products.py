@@ -34,6 +34,7 @@ class Product:
           self.price = price
           self.quantity = quantity
           self.active:bool = quantity > 0
+          self.promotion = None
 
 
      def get_quantity(self):
@@ -100,37 +101,32 @@ class Product:
           return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: "
 
 
-     def buy(self, quantity):
+     def buy(self, quantity) -> float:
           """
           Buys a given quantity of the product.
           Raises an Exception for incorrect inputs.
-          Updates the quantity of the product.
+
+          Updates the quantity of the product, for products
+          without Unlimited self.quantity.
           If quantity reaches 0, deactivates product.
           Returns the total price (float) of the purchase.
           """
-          try:
-               if not isinstance(quantity, (int, float)):
-                    raise TypeError("Quantity must be a number")
-               if quantity <= 0:
-                    raise ValueError('Please introduce at least one unit to buy')
-               if quantity > self.quantity:
-                    raise ValueError("Quantity requested higher than quantity available")
+          if not isinstance(quantity, (int, float)):
+               raise TypeError("Quantity must be a number")
+          if quantity < 0:
+               raise ValueError('Please introduce at least one unit to buy')
 
-               if isinstance(self.quantity, str):
-                    return quantity * self.price
-               elif self.quantity >= quantity:
-                    total_price = quantity * self.price
-                    self.quantity -= quantity
-               else:
-                    raise ValueError(f"Not enough {self.name} units in store.")
-
-               if self.quantity == 0:
-                    self.deactivate()
-                    print(f"\n{self.name} no longer available")
-
-          except Exception as e:
-               print("Error: ", e)
+          if self.quantity == "Unlimited":
                return quantity * self.price
+          elif self.quantity >= quantity:
+               total_price = quantity * self.price
+               self.quantity -= quantity
+          else:
+               raise ValueError(f"Not enough {self.name} units in store.")
+
+          if self.quantity == 0:
+               self.deactivate()
+               print(f"\n{self.name} no longer available")
 
           return total_price
 
