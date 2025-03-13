@@ -41,6 +41,7 @@ def print_total_products(my_store):
     Gets and iterates though every product object stored
     in the store object received as an argument, retrieves
     their quantity attribute and sums them.
+    If the quantity attribute is a string, ignores it.
     Prints the total amount formated as a string.
     """
     if len(my_store.get_all_products()) == 0:
@@ -49,7 +50,9 @@ def print_total_products(my_store):
 
     total_amount = 0
     for product in my_store.get_all_products():
-        total_amount += product.get_quantity()
+        quantity = product.get_quantity()
+        if isinstance(quantity, (int, float)):
+            total_amount += quantity
 
     print(f"Total of {total_amount} items in store")
 
@@ -65,11 +68,12 @@ def _check_amount(product_num, amount, product_list):
     """
     try:
         product = product_list[product_num - 1]
-        assert 1 <= amount <= product.get_quantity()
-        return product
+        if isinstance(product.get_quantity(), str):
+            return product
+        elif 1 <= amount <= product.get_quantity():
+            return product
     except AssertionError:
-        print("Error while making order! "
-              "Quantity larger than what exists")
+        print("Error while making order! Quantity larger than what exists")
         return
 
 
@@ -142,8 +146,7 @@ def make_order(my_store):
             return
 
         if _check_product_num(product_num, product_list):
-            product = _check_amount(product_num, amount,
-                                    product_list)
+            product = _check_amount(product_num, amount, product_list) ######### Bug here
             ### bug fix: order too large returns None,
             ### check to avoid program from crashing
             if product is None:

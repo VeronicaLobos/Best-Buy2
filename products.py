@@ -1,4 +1,5 @@
 
+
 class Product:
      def __init__(self, name:str, price:float, quantity:int):
           """
@@ -35,10 +36,10 @@ class Product:
           self.active:bool = quantity > 0
 
 
-     def get_quantity(self) -> float:
+     def get_quantity(self):
           """
           Getter function for quantity.
-          Returns the quantity (float).
+          Returns the quantity.
           """
           return self.quantity
 
@@ -96,10 +97,10 @@ class Product:
           Returns a string that represents the product, for example:
           "MacBook Air M2, Price: 1450, Quantity: 100"
           """
-          return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
+          return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: "
 
 
-     def buy(self, quantity) -> float:
+     def buy(self, quantity):
           """
           Buys a given quantity of the product.
           Raises an Exception for incorrect inputs.
@@ -107,19 +108,17 @@ class Product:
           If quantity reaches 0, deactivates product.
           Returns the total price (float) of the purchase.
           """
-          total_price = 0
-
           try:
                if not isinstance(quantity, (int, float)):
                     raise TypeError("Quantity must be a number")
-               if quantity < 0:
+               if quantity <= 0:
                     raise ValueError('Please introduce at least one unit to buy')
                if quantity > self.quantity:
                     raise ValueError("Quantity requested higher than quantity available")
 
-               if self.quantity >= quantity:
-                    ### bug fix: obtain total price before updating
-                    ### product quantity
+               if isinstance(self.quantity, str):
+                    return quantity * self.price
+               elif self.quantity >= quantity:
                     total_price = quantity * self.price
                     self.quantity -= quantity
                else:
@@ -131,6 +130,40 @@ class Product:
 
           except Exception as e:
                print("Error: ", e)
-               return 0
+               return quantity * self.price
 
           return total_price
+
+#######
+
+class NonStockedProduct(Product):
+     """
+     This subclass represents a Product without
+     a numerical quantity attribute.
+     """
+     def __init__(self, name:str, price:float):
+          super().__init__(name, price, 0)
+          self.quantity = "Unlimited"
+          self.active:bool = True
+
+
+#######
+
+class LimitedProduct(Product):
+     """
+     This subclass represents a Product with
+     limited quantity, maximum
+     """
+     def __init__(self, name:str, price:float, quantity:int, maximum:int):
+          super().__init__(name, price, quantity)
+          self.maximum = maximum
+
+     def show(self) -> str:
+          """
+          Returns a string that represents the product,
+          for example:
+          "MacBook Air M2, Price: 1450, Quantity: 100, Maximum: 1"
+          """
+          super().show()
+          return (f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
+                  f", Maximum: {self.maximum}, Promotion: ")

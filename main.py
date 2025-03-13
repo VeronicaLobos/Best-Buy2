@@ -1,5 +1,5 @@
 import sys
-from products import Product
+from products import Product, NonStockedProduct, LimitedProduct
 from store import Store
 import commands
 
@@ -15,7 +15,9 @@ def setup_inventory():
                  Product(name="Bose QuietComfort Earbuds",
                          price=250, quantity=500),
                  Product(name="Google Pixel 7",
-                         price=500, quantity=250)
+                         price=500, quantity=250),
+                 NonStockedProduct("Windows License", price=125),
+                 LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
                ]
     return Store(product_list)
 
