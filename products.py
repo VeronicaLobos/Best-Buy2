@@ -71,6 +71,21 @@ class Product:
                     print(self.quantity)
 
 
+     def set_promotion(self, promotion):
+          """
+          Updates attribute promotion for product instance
+          """
+          self.promotion = promotion
+
+
+     def get_promotion(self):
+          """
+          For testing
+          """
+          if self.promotion:
+               print(self.promotion)
+
+
      def is_active(self) -> bool:
           """
           Getter function for active.

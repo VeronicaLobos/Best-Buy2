@@ -1,5 +1,6 @@
 import pytest
 from products import Product
+import promotions
 
 
 def test_creating_product():
@@ -73,3 +74,16 @@ def test_buy_too_much():
     assert product.buy(purchase_amount) == total_price
     ## Product quantity should remain unchanged
     assert product.quantity == purchase_amount - 1
+
+
+#### Testing that promotion is assigned to product and applied
+
+def test_promo_applied():
+    product = Product(name="MacBook Air M2", price=1450, quantity=100)
+    second_half_price = (promotions.
+                         SecondHalfPrice("Second Half price!"))
+    product.set_promotion(second_half_price)
+
+    assert product.promotion.name == "Second Half price!"
+    assert product.buy(3) == 4350
+    assert second_half_price.apply_promo(product, quantity=3) == 3625.0

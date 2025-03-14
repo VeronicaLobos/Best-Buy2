@@ -1,6 +1,7 @@
 import sys
 from products import Product, NonStockedProduct, LimitedProduct
 from store import Store
+import promotions
 import commands
 
 
@@ -10,15 +11,39 @@ def setup_inventory():
     Creates and returns a store object:
     a list containing product objects.
     """
+    ##  Setup initial stock of inventory
     product_list = [ Product(name="MacBook Air M2",
                              price=1450, quantity=100),
                  Product(name="Bose QuietComfort Earbuds",
                          price=250, quantity=500),
                  Product(name="Google Pixel 7",
                          price=500, quantity=250),
-                 NonStockedProduct("Windows License", price=125),
-                 LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
-               ]
+                 NonStockedProduct("Windows License",
+                                   price=125),
+                 LimitedProduct("Shipping", price=10,
+                                quantity=250, maximum=1)]
+
+    ##  Create promotion catalog
+    second_half_price = (promotions.
+                             SecondHalfPrice("Second Half price!"))
+    third_one_free = (promotions.
+                          ThirdOneFree("Third One Free!"))
+    thirty_percent = (promotions.
+                          PercentDiscount("30% off!", percent = 30))
+
+    ##  Assign promotion to products
+    product_list[0].set_promotion(second_half_price)
+    product_list[1].set_promotion(third_one_free)
+    product_list[3].set_promotion(thirty_percent)
+
+    #### Testing that promotion is assigned to product and applied
+    #print(product_list[0].promotion.name)
+    #    >>> Second Half price!
+    #print(product_list[0].buy(3))
+    #    >>> 4350
+    #print(second_half_price.apply_promo(product_list[0], quantity=3))
+    #    >>> 3625.0
+
     return Store(product_list)
 
 
