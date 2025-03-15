@@ -1,10 +1,10 @@
-import pytest
 from products import Product
+import promotions
 
 
 """
 Note: not required in the assignment,
-just for practice and testing of my project
+just for practice and testing of my project :)
 """
 
 def test_half_price_promo_applied():
