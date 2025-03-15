@@ -74,9 +74,14 @@ class PercentDiscount(Promotion):
         self.percent = percent
 
     def apply_promo(self, product, quantity):
+        """
+        Calculates the percentage that will be charged
+        from the full price of the items.
+        Returns the price after applying the promotion.
+        """
         percentage_to_pay = 100 - self.percent
         percentage_to_pay_as_decimal = percentage_to_pay / 100
 
         full_price = product.price * quantity
 
-        return full_price * percentage_to_pay_as_decimal
+        return int(full_price * percentage_to_pay_as_decimal)

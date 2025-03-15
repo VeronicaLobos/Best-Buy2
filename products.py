@@ -1,3 +1,4 @@
+import promotions
 
 
 class Product:
@@ -135,8 +136,9 @@ class Product:
           if quantity < 0:
                raise ValueError('Please introduce at least one unit to buy')
 
+          ##  Checks quantity, updates if limited units available
           if self.quantity == "Unlimited":
-               return quantity * self.price
+               pass
           elif self.quantity >= quantity:
                total_price = quantity * self.price
                self.quantity -= quantity
@@ -146,6 +148,11 @@ class Product:
           if self.quantity == 0:
                self.deactivate()
                print(f"\n{self.name} no longer available")
+
+          if self.promotion:
+               print(f"Promotion applied to {self.name}: {self.promotion.name}")
+               total_after_discount = self.promotion.apply_promo(self, quantity)
+               return int(total_after_discount)
 
           return total_price
 
@@ -160,6 +167,7 @@ class NonStockedProduct(Product):
           super().__init__(name, price, 0)
           self.quantity = "Unlimited"
           self.active:bool = True
+          self.percent = 0
 
 
 #######
