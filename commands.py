@@ -149,7 +149,7 @@ def make_order(my_store):
             return
 
         if _check_product_num(product_num, product_list):
-            product = _check_amount(product_num, amount, product_list) ######### Bug here
+            product = _check_amount(product_num, amount, product_list)
 
             ## Order too large returns product = None
             if product is None:
@@ -157,12 +157,14 @@ def make_order(my_store):
                       "than what exists")
                 return
 
+            ## Shipping limited to 1 unit per order
             if isinstance(product, LimitedProduct):
                 if amount > 1:
                     print("Error while making order! Only 1 is allowed "
                       "from this product (Shipping)!")
                     return
 
+            ## Add product to cart
             cart.append((product, amount))
             print("Product added to list!\n")
             cart_empty = False
