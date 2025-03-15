@@ -113,7 +113,11 @@ class Product:
           Returns a string that represents the product, for example:
           "MacBook Air M2, Price: 1450, Quantity: 100"
           """
-          return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: "
+          if self.promotion == None:
+               promo = "None"
+          else:
+               promo = self.promotion.name
+          return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {promo}"
 
 
      def buy(self, quantity) -> float:
@@ -177,4 +181,5 @@ class LimitedProduct(Product):
           """
           super().show()
           return (f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
-                  f", Maximum: {self.maximum}, Promotion: ")
+                  f", Limited to {self.maximum} per order!, "
+                  f"Promotion: {self.promotion}")

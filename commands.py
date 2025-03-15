@@ -1,4 +1,4 @@
-
+from products import LimitedProduct
 """
 commands available through the user interface go here --------
 note: pending handling KeyboardInterrupt error
@@ -109,8 +109,11 @@ def make_order(my_store):
     Prompts the user for input and handles errors,
     empty input with an empty cart exits the command.
     Adds a tuple containing a product object and a
-    quantity (int) to the cart (list). If the amount for
-    the purchase is too large, returns to the menu.
+    quantity (int) to the cart (list).
+    If the amount for the purchase is too large, returns
+    to the menu.
+    If the amount for LimitedProduct instance is larger
+    than 1, returns to the menu.
     Sets cart_empty to False, keeps prompting the user
     for input until empty input.
     Calls a store method to receive total price, prints
@@ -147,14 +150,22 @@ def make_order(my_store):
 
         if _check_product_num(product_num, product_list):
             product = _check_amount(product_num, amount, product_list) ######### Bug here
-            ### bug fix: order too large returns None,
-            ### check to avoid program from crashing
+
+            ## Order too large returns product = None
             if product is None:
+                print("Error while making order! Quantity larger "
+                      "than what exists")
                 return
-            else:
-                cart.append((product, amount))
-                print("Product added to list!\n")
-                cart_empty = False
+
+            if isinstance(product, LimitedProduct):
+                if amount > 1:
+                    print("Error while making order! Only 1 is allowed "
+                      "from this product (Shipping)!")
+                    return
+
+            cart.append((product, amount))
+            print("Product added to list!\n")
+            cart_empty = False
 
     grand_total = my_store.order(cart)
     print(f"Order made! Total payment: ${grand_total}")
