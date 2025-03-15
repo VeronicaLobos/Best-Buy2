@@ -1,7 +1,8 @@
 from products import LimitedProduct
+
 """
-commands available through the user interface go here --------
-note: pending handling KeyboardInterrupt error
+A module containing the commands available through 
+main.py 's user interface and their utilities
 """
 
 

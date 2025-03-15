@@ -1,6 +1,10 @@
 import pytest
 from products import Product
 
+"""
+A module containing tests for the Product class
+"""
+
 
 def test_creating_product():
     """

@@ -4,6 +4,21 @@ from store import Store
 import promotions
 import commands
 
+"""
+This module serves as the entry point for a store's self-service terminal.
+
+It sets up the initial inventory, including products and promotions,
+and provides a command-line interface for users to interact with the store.
+
+Users can:
+- List all products in the store.
+- Show the total quantity of products in the store.
+- Place an order.
+- Exit the terminal.
+
+The module utilizes other modules (products, store, promotions, and commands)
+to manage product information, store operations, promotions, and user interactions.
+"""
 
 # setup initial stock of inventory ---------------------------
 def setup_inventory():

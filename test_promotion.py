@@ -3,6 +3,11 @@ import promotions
 
 
 """
+A module containing test for the Promotion class.
+Mainly checks if promotions are applied to instances
+of the Product class during the buy product process
+and from the promotion itself.
+
 Note: not required in the assignment,
 just for practice and testing of my project :)
 """

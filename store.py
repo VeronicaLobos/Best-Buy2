@@ -1,4 +1,8 @@
 
+"""
+A module containing methods for a list of Product instances
+"""
+
 class Store:
     """
     Holds a single value: a list holding instances of the

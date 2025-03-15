@@ -1,5 +1,11 @@
 from abc import ABC, abstractmethod
 
+"""
+A module to create Promotion instances and
+apply them to Product instances.
+If a Promotion has been applied, the total_price
+will be modified when a product is bought.
+"""
 
 class Promotion(ABC):
     """
